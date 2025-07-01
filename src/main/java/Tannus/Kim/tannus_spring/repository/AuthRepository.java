@@ -1,10 +1,12 @@
 package Tannus.Kim.tannus_spring.repository;
 
 import Tannus.Kim.tannus_spring.dto.SignupReqDto;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class AuthRepository {
     private final Map<String, String> userDb = new HashMap<>();
 

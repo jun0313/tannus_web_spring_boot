@@ -1,9 +1,10 @@
 package Tannus.Kim.tannus_spring.controller;
 
-import Tannus.Kim.tannus_spring.dto.SigninReqDto;
 import Tannus.Kim.tannus_spring.dto.SigninRespDto;
 import Tannus.Kim.tannus_spring.dto.SignupReqDto;
-import Tannus.Kim.tannus_spring.repository.SignupRespDto;
+import Tannus.Kim.tannus_spring.dto.SignupRespDto;
+import Tannus.Kim.tannus_spring.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,8 @@ import java.util.List;
 @RequestMapping("/auth")
 
 public class AuthController {
+    @Autowired
+    private AuthService authService;
 
     // @RequestParam
     // 클라이언트가 URL 쿼리스트링으로 넘긴 값을 메소드 파라미터로 전달
@@ -110,8 +113,17 @@ public class AuthController {
     // 500 Internal Server Error >> 서버 내부 오류 (코드 문제, 예외 등)
 
     // 200은 정상적으로 됐다, 400은 네가 잘못 보냈다, 500은 서버가 터졌다.
+
     @PostMapping("/signup")
     public ResponseEntity<SignupRespDto> signup(@RequestBody SignupReqDto signupReqDto) {
-
+        return ResponseEntity.ok().body(authService.signup(signupReqDto));
     }
+    //중복 체크 같은 API는 대부분 200 OK로 응답하고
+    //응답 본문(JSON)에 "중복 여부"를 표시합니다.
+    //중복체크는 정상적인 요청에 대한 정상적인 응답이기때문에 200 OK다
+    //이메일이 중복이든 아니든 요청 자체는 정상적으로 처리됐기 때문에 400/409 같은 에러코드를 주지 않는다
+    //대신 JSON 응답 내부에서 중복됨/가능함 을 구분
+    //그럼 언제 에러 코드(409 Conflict)를 쓰느냐?
+    //그거는 진짜 예외 상황일때
+    //중복된 이메일로 회원가입을 실제로 시도했을때 이럴때 409
 }

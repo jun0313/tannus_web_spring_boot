@@ -1,4 +1,4 @@
-package Tannus.Kim.tannus_spring.repository;
+package Tannus.Kim.tannus_spring.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
